@@ -2,6 +2,7 @@ from unittest import TestCase
 from MDP import MDP
 from MDP import State
 from MDP import Action
+import numpy as np
 
 class TestMDP(TestCase):
     """
@@ -82,6 +83,25 @@ class TestMDP(TestCase):
         mdp.add_state("StateFour")
         self.assertEqual(mdp.num_states(), 4)
         self.assertIn(mdp.get_state("StateOne"), mdp.get_state_list())
+
+
+    def test_string_state_has_id(self):
+        """
+        States should have a numerical id so that we can use the state ids in matrices
+        where strings wouldnt be allowed.
+        """
+
+        mdp = MDP()
+
+        mdp.add_state("StateOne")
+        mdp.add_state("StateTwo")
+
+        self.assertEqual(mdp.get_state("StateOne").name, "StateOne")
+        self.assertEqual(mdp.get_state(0).name, "StateOne")
+
+        self.assertEqual(mdp.get_state(0).id, 0)
+        self.assertEqual(mdp.get_state("StateOne").id, 0)
+
 
     def test_add_duplicate_state(self):
         mdp = MDP()
@@ -207,6 +227,10 @@ class TestMDP(TestCase):
         s_prime = mdp.get_state(1)
 
         mdp.add_transition(s, a, s_prime, 1.)
+
+        transition_matrix = mdp.get_transition_matrix()
+
+
 
 
     def test_get_transition_probability(self):
