@@ -61,10 +61,13 @@ class MDP(object):
             raise IndexError
 
     def add_action(self, id):
-        pass
+        self.actions.append(Action(id))
 
     def get_action(self, id):
-        pass
+        for action in self.actions:
+            if action.id is id:
+                return action
+        return None
 
     def add_transition(self, state, action, new_state, probability=1.):
         pass
@@ -74,6 +77,12 @@ class MDP(object):
 
     def size(self):
         return self.num_states
+
+    def num_actions(self):
+        return len(self.actions)
+
+    def get_action_list(self):
+        return self.actions
 
 
 class State(object):
