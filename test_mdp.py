@@ -23,6 +23,12 @@ class TestMDP(TestCase):
         self.assertEqual(type(mdp.get_state(0)), State)
         self.assertEqual(mdp.get_state(4).id, 4)
 
+    def test_get_non_existing_state(self):
+        """
+        Test that you can't get a non existing state
+        """
+        mdp = MDP(5)
+
         with self.assertRaises(IndexError):
             mdp.get_state(5)
 
@@ -42,18 +48,24 @@ class TestMDP(TestCase):
         mdp.add_state(4)
         mdp.add_state(5, terminal=True)
         self.assertEqual(mdp.size(), 6)
-
         self.assertIn(mdp.get_state(0), mdp.get_state_list())
-        # Test that it works for strings anyway? Named States?
+
+    def test_add_string_state(self):
         mdp = MDP()
+
         mdp.add_state("StateOne")
         mdp.add_state("StateTwo")
         mdp.add_state("StateThree")
         mdp.add_state("StateFour")
         self.assertEqual(mdp.size(), 4)
+        self.assertIn(mdp.get_state("StateOne"), mdp.get_state_list())
 
+    def test_add_duplicate_state(self):
+        mdp = MDP()
+
+        mdp.add_state("State")
         with self.assertRaises(KeyError):
-            mdp.add_state("StateFour")
+            mdp.add_state("State")
 
     def test_get_state(self):
         """
@@ -109,6 +121,9 @@ class TestMDP(TestCase):
         self.assertEqual(type(mdp.get_action("jump")), Action)
         self.assertIn(mdp.get_action("jump"), mdp.get_action_list())
 
+
+
+    def test_add_duplicate_action(self):
         mdp = MDP()
         mdp.add_action("jump")
         with self.assertRaises(KeyError):   # RunTime error is probably more appropriate?
@@ -148,9 +163,8 @@ class TestMDP(TestCase):
 
         action_list = mdp.get_action_list()
         self.assertEqual(len(action_list), 2)
+        self.assertIn(mdp.get_action(0), action_list)
 
-        self.assertIn(mdp.get)
-        pass
 
     def test_add_transition(self):
         """
