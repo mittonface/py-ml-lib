@@ -23,7 +23,8 @@ class TestMDP(TestCase):
         self.assertEqual(type(mdp.get_state(0)), State)
         self.assertEqual(mdp.get_state(4).id, 4)
 
-        self.assertRaises(mdp.get_state(5), IndexError)
+        with self.assertRaises(IndexError):
+            mdp.get_state(5)
 
     def test_create_state(self):
         """
@@ -40,7 +41,7 @@ class TestMDP(TestCase):
         mdp.add_state(3)
         mdp.add_state(4)
         mdp.add_state(5, terminal=True)
-        self.assertEqual(mdp.size(), 5)
+        self.assertEqual(mdp.size(), 6)
 
         # Test that it works for strings anyway? Named States?
         mdp = MDP()
