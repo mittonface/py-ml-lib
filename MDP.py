@@ -62,6 +62,12 @@ class MDP(object):
             self.states[id] = State(id, terminal)
 
     def get_state(self, id):
+            return self.get_state_by_id(id)
+
+    def get_state_by_name(self, name):
+        pass
+
+    def get_state_by_id(self, id):
         if id in self.states:
             return self.states[id]
         raise IndexError
@@ -108,6 +114,7 @@ class State(object):
     def __init__(self, id, terminal=False):
         self.id = id
         self.terminal = False
+        self.name = id
 
 
 class Action(object):
