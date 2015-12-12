@@ -15,7 +15,7 @@ class TestMDP(TestCase):
         # there isn't very much we can tell about an mdp that is completely devoid
         # of states
         mdp = MDP()
-        self.assertEqual(mdp.size(), 0)
+        self.assertEqual(mdp.num_states(), 0)
 
     def test_create_new_mdp_initial_num_states(self):
         """
@@ -23,7 +23,7 @@ class TestMDP(TestCase):
         """
 
         mdp = MDP(5)
-        self.assertEqual(mdp.size(), 5)
+        self.assertEqual(mdp.num_states(), 5)
 
         # this MDP should have 5 states
         self.assertEquals(type(mdp.get_state(0)), State)
@@ -62,7 +62,7 @@ class TestMDP(TestCase):
         mdp.add_state(3)
         mdp.add_state(4)
         mdp.add_state(5, terminal=True)
-        self.assertEqual(mdp.size(), 6)
+        self.assertEqual(mdp.num_states(), 6)
 
     def test_create_state_populates_state_list(self):
         mdp = MDP()
@@ -80,7 +80,7 @@ class TestMDP(TestCase):
         mdp.add_state("StateTwo")
         mdp.add_state("StateThree")
         mdp.add_state("StateFour")
-        self.assertEqual(mdp.size(), 4)
+        self.assertEqual(mdp.num_states(), 4)
         self.assertIn(mdp.get_state("StateOne"), mdp.get_state_list())
 
     def test_add_duplicate_state(self):
@@ -118,15 +118,15 @@ class TestMDP(TestCase):
         Probably nice to be able to tell the size of the MDP. If not only for tests
         """
         mdp = MDP()
-        self.assertEqual(mdp.size(), 0)
+        self.assertEqual(mdp.num_states(), 0)
 
         mdp = MDP(5)
-        self.assertEqual(mdp.size(), 5)
+        self.assertEqual(mdp.num_states(), 5)
 
         mdp = MDP()
         mdp.add_state(0)
         mdp.add_state(1)
-        self.assertEqual(mdp.size(), 2)
+        self.assertEqual(mdp.num_states(), 2)
 
 
     def test_add_action(self):

@@ -86,7 +86,7 @@ class MDP(object):
     def validate(self):
         pass
 
-    def size(self):
+    def num_states(self):
         return len(self.states)
 
     def num_actions(self):
