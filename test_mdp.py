@@ -17,10 +17,6 @@ class TestMDP(TestCase):
         mdp = MDP()
         self.assertEqual(mdp.size(), 0)
 
-
-        self.assertEqual(type(mdp.get_state(0)), State)
-        self.assertEqual(mdp.get_state(4).id, 4)
-
     def test_create_new_mdp_initial_num_states(self):
         """
         Test initializing MDPS with an explicity number of states
@@ -108,12 +104,14 @@ class TestMDP(TestCase):
         # test that you can get a state by string id
         mdp = MDP()
         mdp.add_state("Test")
-        self.assertEquals(type(mdp.get_state("Test"), State))
+        self.assertEquals(type(mdp.get_state("Test")), State)
         self.assertIn(mdp.get_state("Test"), mdp.get_state_list())
 
         mdp = MDP(5)
         self.assertEquals(type(mdp.get_state(0)), State)
-        self.assertRaises(mdp.get_state(11), IndexError)
+
+        with self.assertRaises(IndexError):
+            self.assertRaises(mdp.get_state(11), IndexError)
 
     def test_mdp_size(self):
         """
