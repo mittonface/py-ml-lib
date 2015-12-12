@@ -51,14 +51,26 @@ class MDP(object):
         self.actions = []
         self.transitions = []
 
+        if num_states > 0:
+            for id in range(num_states):
+                self.add_state(id)
+
     def add_state(self, id, terminal=False):
-        self.num_states += 1
+        try:
+            self.get_state(id)
+            worked = False
+        except Exception:
+            self.states.append(State(id, terminal))
+            worked = True
+
+        if not worked:
+            raise KeyError
 
     def get_state(self, id):
-        if id < self.size():
-            return State(id)
-        else:
-            raise IndexError
+        for state in self.states:
+            if state.id is id:
+                return state
+        raise IndexError
 
     def add_action(self, id):
         action = self.get_action(id)
@@ -80,13 +92,16 @@ class MDP(object):
         pass
 
     def size(self):
-        return self.num_states
+        return len(self.states)
 
     def num_actions(self):
         return len(self.actions)
 
     def get_action_list(self):
         return self.actions
+
+    def get_state_list(self):
+        return self.states
 
 
 class State(object):
