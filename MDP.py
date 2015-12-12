@@ -58,13 +58,9 @@ class MDP(object):
     def add_state(self, id, terminal=False):
         try:
             self.get_state(id)
-            worked = False
-        except Exception:
-            self.states.append(State(id, terminal))
-            worked = True
-
-        if not worked:
             raise KeyError
+        except IndexError:
+            self.states.append(State(id, terminal))
 
     def get_state(self, id):
         for state in self.states:
