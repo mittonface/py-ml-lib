@@ -101,18 +101,18 @@ class TestMDP(TestCase):
         self.assertEquals(type(mdp.get_state(0)), State)
         self.assertIn(mdp.get_state(0), mdp.get_state_list())
 
+    def test_get_string_state(self):
         # test that you can get a state by string id
         mdp = MDP()
         mdp.add_state("Test")
         self.assertEquals(type(mdp.get_state("Test")), State)
         self.assertIn(mdp.get_state("Test"), mdp.get_state_list())
 
+    def test_get_non_existent_state(self):
         mdp = MDP(5)
-        self.assertEquals(type(mdp.get_state(0)), State)
 
         with self.assertRaises(IndexError):
             self.assertRaises(mdp.get_state(11), IndexError)
-
     def test_mdp_size(self):
         """
         Probably nice to be able to tell the size of the MDP. If not only for tests
