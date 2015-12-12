@@ -7,21 +7,40 @@ class TestMDP(TestCase):
     """
     An MDP is essentially a non-deterministic weighted digraph.
     """
-    def test_create_new_mdp(self):
+    def test_create_new_mdp_no_initial_states(self):
         """
         I'm not sure what the create MDP method should actually do.
         """
 
+        # there isn't very much we can tell about an mdp that is completely devoid
+        # of states
         mdp = MDP()
         self.assertEqual(mdp.size(), 0)
 
-        # You should be able to init an MDP with the number of states that you want
-        # it to have, I guess.
-        mdp = MDP(5)
-        self.assertEqual(mdp.size(), 5)
 
         self.assertEqual(type(mdp.get_state(0)), State)
         self.assertEqual(mdp.get_state(4).id, 4)
+
+    def test_create_new_mdp_initial_num_states(self):
+        """
+        Test initializing MDPS with an explicity number of states
+        """
+
+        mdp = MDP(5)
+        self.assertEqual(mdp.size(), 5)
+
+        # this MDP should have 5 states
+        self.assertEquals(type(mdp.get_state(0)), State)
+        self.assertEquals(type(mdp.get_state(2)), State)
+        self.assertEquals(type(mdp.get_state(4)), State)
+
+    def test_create_new_mdp_init_num_states_populates_state_list(self):
+
+        mdp = MDP(5)
+
+        self.assertIn(mdp.get_state(0), mdp.get_state_list())
+        self.assertIn(mdp.get_state(2), mdp.get_state_list())
+        self.assertIn(mdp.get_state(4), mdp.get_state_list())
 
     def test_get_non_existing_state(self):
         """
@@ -48,7 +67,15 @@ class TestMDP(TestCase):
         mdp.add_state(4)
         mdp.add_state(5, terminal=True)
         self.assertEqual(mdp.size(), 6)
+
+    def test_create_state_populates_state_list(self):
+        mdp = MDP()
+
+        mdp.add_state(0)
+        mdp.add_state(2)
+
         self.assertIn(mdp.get_state(0), mdp.get_state_list())
+        self.assertIn(mdp.get_state(2), mdp.get_state_list())
 
     def test_add_string_state(self):
         mdp = MDP()
@@ -173,7 +200,21 @@ class TestMDP(TestCase):
         Takes in a state, one of the actions, the state that we'll end up in after taking an action, and the probability
         that this transition occurs.
         """
+
+        mdp = MDP(5)
+        mdp.add_action(0)
+
+        s = mdp.get_state(0)
+        a = mdp.get_action(0)
+        s_prime = mdp.get_state(1)
+
+        mdp.add_transition(s, a, s_prime, 1.)
+
+
+    def test_get_transition_probability(self):
         pass
+
+
 
     def test_validate(self):
         """
