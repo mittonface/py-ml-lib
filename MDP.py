@@ -46,15 +46,19 @@ class MDP(object):
     """
 
     def __init__(self, num_states = 0):
+        self.num_states = num_states
         self.states = []
         self.actions = []
         self.transitions = []
 
     def add_state(self, id, terminal=False):
-        pass
+        self.num_states += 1
 
     def get_state(self, id):
-        pass
+        if id < self.size():
+            return State(id)
+        else:
+            raise IndexError
 
     def add_action(self, id):
         pass
@@ -67,6 +71,9 @@ class MDP(object):
 
     def validate(self):
         pass
+
+    def size(self):
+        return self.num_states
 
 
 class State(object):
