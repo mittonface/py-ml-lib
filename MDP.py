@@ -46,7 +46,6 @@ class MDP(object):
     """
 
     def __init__(self, num_states = 0):
-        self.num_states = num_states
         self.states = {}
         self.actions = []
         self.transitions = []
