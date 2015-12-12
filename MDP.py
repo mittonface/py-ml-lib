@@ -47,7 +47,7 @@ class MDP(object):
 
     def __init__(self, num_states = 0):
         self.num_states = num_states
-        self.states = []
+        self.states = {}
         self.actions = []
         self.transitions = []
 
@@ -60,12 +60,11 @@ class MDP(object):
             self.get_state(id)
             raise KeyError
         except IndexError:
-            self.states.append(State(id, terminal))
+            self.states[id] = State(id, terminal)
 
     def get_state(self, id):
-        for state in self.states:
-            if state.id is id:
-                return state
+        if id in self.states:
+            return self.states[id]
         raise IndexError
 
     def add_action(self, id):
@@ -97,7 +96,7 @@ class MDP(object):
         return self.actions
 
     def get_state_list(self):
-        return self.states
+        return list(self.states.values())
 
 
 class State(object):
