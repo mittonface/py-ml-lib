@@ -97,6 +97,8 @@ class MDP(object):
     def get_state_list(self):
         return list(self.states.values())
 
+    def get_transition_function(self):
+        return self.transitions
 
 class State(object):
     """

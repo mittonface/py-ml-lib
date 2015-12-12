@@ -4,6 +4,18 @@ from MDP import State
 from MDP import Action
 import numpy as np
 
+class TestAction(TestCase):
+
+    def test_create_action(self):
+
+        pass
+
+    def test_create_named_action(self):
+        pass
+
+    def test_created_multiple_named_action_correct_ids(self):
+        pass
+
 class TestMDP(TestCase):
     """
     An MDP is essentially a non-deterministic weighted digraph.
@@ -74,41 +86,12 @@ class TestMDP(TestCase):
         self.assertIn(mdp.get_state(0), mdp.get_state_list())
         self.assertIn(mdp.get_state(2), mdp.get_state_list())
 
-    def test_add_string_state(self):
-        mdp = MDP()
-
-        mdp.add_state("StateOne")
-        mdp.add_state("StateTwo")
-        mdp.add_state("StateThree")
-        mdp.add_state("StateFour")
-        self.assertEqual(mdp.num_states(), 4)
-        self.assertIn(mdp.get_state("StateOne"), mdp.get_state_list())
-
-
-    def test_string_state_has_id(self):
-        """
-        States should have a numerical id so that we can use the state ids in matrices
-        where strings wouldnt be allowed.
-        """
-
-        mdp = MDP()
-
-        mdp.add_state("StateOne")
-        mdp.add_state("StateTwo")
-
-        self.assertEqual(mdp.get_state("StateOne").name, "StateOne")
-        self.assertEqual(mdp.get_state(0).name, "StateOne")
-
-        self.assertEqual(mdp.get_state(0).id, 0)
-        self.assertEqual(mdp.get_state("StateOne").id, 0)
-
-
     def test_add_duplicate_state(self):
         mdp = MDP()
 
-        mdp.add_state("State")
+        mdp.add_state(0)
         with self.assertRaises(KeyError):
-            mdp.add_state("State")
+            mdp.add_state(0)
 
     def test_get_state(self):
         """
@@ -121,18 +104,12 @@ class TestMDP(TestCase):
         self.assertEquals(type(mdp.get_state(0)), State)
         self.assertIn(mdp.get_state(0), mdp.get_state_list())
 
-    def test_get_string_state(self):
-        # test that you can get a state by string id
-        mdp = MDP()
-        mdp.add_state("Test")
-        self.assertEquals(type(mdp.get_state("Test")), State)
-        self.assertIn(mdp.get_state("Test"), mdp.get_state_list())
-
     def test_get_non_existent_state(self):
         mdp = MDP(5)
 
         with self.assertRaises(IndexError):
             self.assertRaises(mdp.get_state(11), IndexError)
+
     def test_mdp_size(self):
         """
         Probably nice to be able to tell the size of the MDP. If not only for tests
@@ -175,13 +152,6 @@ class TestMDP(TestCase):
             mdp.add_action("jump")
 
 
-    def test_get_action(self):
-        """
-        Basically I've already tested all of these things in the above.
-
-        """
-        pass
-
     def test_get_num_actions(self):
         """
         It will be helpful to be able to return the number of distinct actions that an MDP
@@ -211,7 +181,6 @@ class TestMDP(TestCase):
         self.assertEqual(len(action_list), 2)
         self.assertIn(mdp.get_action(0), action_list)
 
-
     def test_add_transition(self):
         """
         S, A, S', P
@@ -226,9 +195,10 @@ class TestMDP(TestCase):
         a = mdp.get_action(0)
         s_prime = mdp.get_state(1)
 
+        mdp.add_transition(s, a, s_prime, 1.)
 
-
-
+        transition_function = mdp.get_transition_function()
+        self.assertEqual(s.id, a.id)
 
 
     def test_get_transition_probability(self):
