@@ -52,6 +52,9 @@ class TestMDP(TestCase):
         mdp.add_state("StateFour")
         self.assertEqual(mdp.size(), 4)
 
+        with self.assertRaises(KeyError):
+            mdp.add_state("StateFour")
+
     def test_get_state(self):
         """
         Should probably be some nice way to get states by a state id or state name
@@ -61,7 +64,7 @@ class TestMDP(TestCase):
         mdp = MDP()
         mdp.add_state(0)
         self.assertEquals(type(mdp.get_state(0)), State)
-        self.assertEquals(mdp.get_state(0), mdp.get_state_list())
+        self.assertIn(mdp.get_state(0), mdp.get_state_list())
 
         # test that you can get a state by string id
         mdp = MDP()
@@ -106,9 +109,16 @@ class TestMDP(TestCase):
         self.assertEqual(type(mdp.get_action("jump")), Action)
         self.assertIn(mdp.get_action("jump"), mdp.get_action_list())
 
+        mdp = MDP()
+        mdp.add_action("jump")
+        with self.assertRaises(KeyError):   # RunTime error is probably more appropriate?
+            mdp.add_action("jump")
 
     def test_get_action(self):
+        """
+        Basically I've already tested all of these things in the above.
 
+        """
         pass
 
     def test_get_num_actions(self):
@@ -116,9 +126,30 @@ class TestMDP(TestCase):
         It will be helpful to be able to return the number of distinct actions that an MDP
         has.
         """
-        pass
+        mdp = MDP()
+        mdp.add_action(0)
+        mdp.add_action(1)
+        mdp.add_action(2)
+        mdp.add_action(3)
+        mdp.add_action(4)
+        mdp.add_action(5)
+        mdp.add_action(6)
+
+        action_list = mdp.get_action_list()
+        self.assertEqual(len(action_list), 7)
+        self.assertIn(mdp.get_action(0), action_list)
+
 
     def test_get_action_list(self):
+        mdp = MDP()
+
+        mdp.add_action(0)
+        mdp.add_action(1)
+
+        action_list = mdp.get_action_list()
+        self.assertEqual(len(action_list), 2)
+
+        self.assertIn(mdp.get)
         pass
 
     def test_add_transition(self):
@@ -144,5 +175,5 @@ class TestMDP(TestCase):
         mdp = MDP(5)
         state_list = mdp.get_state_list()
 
-        self.assertEqual(state_list, 5)
+        self.assertEqual(len(state_list), 5)
         self.assertIn(mdp.get_state(0), state_list)
