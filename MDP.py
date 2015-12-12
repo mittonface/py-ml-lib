@@ -61,7 +61,11 @@ class MDP(object):
             raise IndexError
 
     def add_action(self, id):
-        self.actions.append(Action(id))
+        action = self.get_action(id)
+        if action is None:
+            self.actions.append(Action(id))
+        else:
+            raise KeyError
 
     def get_action(self, id):
         for action in self.actions:
