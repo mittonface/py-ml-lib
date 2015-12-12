@@ -49,14 +49,22 @@ class TestMDP(TestCase):
         """
         Should probably be some nice way to get states by a state id or state name
         """
-        mdp = MDP
-        pass
+        mdp = MDP()
+        mdp.add_state(0)
+        self.assertEquals(type(mdp.get_state(1)), State)
+
+        mdp = MDP()
+        mdp.add_state("Test")
+        self.assertEquals(type(mdp.get_state("Test"), State))
+
+        mdp = MDP(5)
+        self.assertEquals(type(mdp.get_state(0)), State)
+        self.assertRaises(mdp.get_state(11), IndexError)
 
     def test_mdp_size(self):
         """
         Probably nice to be able to tell the size of the MDP. If not only for tests
         """
-        pass
 
     def test_add_action(self):
         """
