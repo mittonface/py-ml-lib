@@ -226,9 +226,7 @@ class TestMDP(TestCase):
         a = mdp.get_action(0)
         s_prime = mdp.get_state(1)
 
-        mdp.add_transition(s, a, s_prime, 1.)
 
-        transition_matrix = mdp.get_transition_matrix()
 
 
 
