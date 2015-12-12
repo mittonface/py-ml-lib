@@ -43,6 +43,7 @@ class TestMDP(TestCase):
         mdp.add_state(5, terminal=True)
         self.assertEqual(mdp.size(), 6)
 
+        self.assertIn(mdp.get_state(0), mdp.get_state_list())
         # Test that it works for strings anyway? Named States?
         mdp = MDP()
         mdp.add_state("StateOne")
@@ -59,12 +60,14 @@ class TestMDP(TestCase):
         # test that you can get a state by numerical id
         mdp = MDP()
         mdp.add_state(0)
-        self.assertEquals(type(mdp.get_state(1)), State)
+        self.assertEquals(type(mdp.get_state(0)), State)
+        self.assertEquals(mdp.get_state(0), mdp.get_state_list())
 
         # test that you can get a state by string id
         mdp = MDP()
         mdp.add_state("Test")
         self.assertEquals(type(mdp.get_state("Test"), State))
+        self.assertIn(mdp.get_state("Test"), mdp.get_state_list())
 
         mdp = MDP(5)
         self.assertEquals(type(mdp.get_state(0)), State)
@@ -84,15 +87,28 @@ class TestMDP(TestCase):
         mdp.add_state(0)
         mdp.add_state(1)
         self.assertEqual(mdp.size(), 2)
-        pass
+
 
     def test_add_action(self):
         """
-
+        Test that you can add an action. Named actions make more sense than named states
         """
-        pass
+        mdp = MDP()
+
+        mdp.add_action(0)
+        self.assertEqual(mdp.num_actions(), 1)
+        self.assertEqual(type(mdp.get_action(0)), Action)
+        self.assertIn(mdp.get_action(0), mdp.get_action_list())
+
+        mdp = MDP()
+        mdp.add_action("jump")
+        self.assertEqual(mdp.num_actions(), 1)
+        self.assertEqual(type(mdp.get_action("jump")), Action)
+        self.assertIn(mdp.get_action("jump"), mdp.get_action_list())
+
 
     def test_get_action(self):
+
         pass
 
     def test_get_num_actions(self):
@@ -100,6 +116,9 @@ class TestMDP(TestCase):
         It will be helpful to be able to return the number of distinct actions that an MDP
         has.
         """
+        pass
+
+    def test_get_action_list(self):
         pass
 
     def test_add_transition(self):
@@ -115,3 +134,15 @@ class TestMDP(TestCase):
         Validate that the action probabilities add up to 1 for each state
         """
         pass
+
+
+    def test_get_state_list(self):
+        """
+        It might be helpful to be able to get a list of all the states
+        """
+
+        mdp = MDP(5)
+        state_list = mdp.get_state_list()
+
+        self.assertEqual(state_list, 5)
+        self.assertIn(mdp.get_state(0), state_list)
