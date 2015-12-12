@@ -115,6 +115,7 @@ class TestMDP(TestCase):
         self.assertEqual(type(mdp.get_action(0)), Action)
         self.assertIn(mdp.get_action(0), mdp.get_action_list())
 
+    def test_add_string_action(self):
         mdp = MDP()
         mdp.add_action("jump")
         self.assertEqual(mdp.num_actions(), 1)
@@ -122,12 +123,12 @@ class TestMDP(TestCase):
         self.assertIn(mdp.get_action("jump"), mdp.get_action_list())
 
 
-
     def test_add_duplicate_action(self):
         mdp = MDP()
         mdp.add_action("jump")
         with self.assertRaises(KeyError):   # RunTime error is probably more appropriate?
             mdp.add_action("jump")
+
 
     def test_get_action(self):
         """
